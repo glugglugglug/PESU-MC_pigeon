@@ -28,6 +28,10 @@ async def on_ready():
 async def ping(ctx):
     await ctx.reply("pong")
 
+@bot.command()
+async def josh(ctx):
+    await ctx.reply("is dumass")
+
 def is_admin(ctx):
     return any(role.id in ADMIN_ID for role in ctx.author.roles)
 
