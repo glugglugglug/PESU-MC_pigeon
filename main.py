@@ -9,7 +9,7 @@ from datetime import datetime
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 SERVER_IP = os.getenv('SERVER_IP')
-
+ADMIN_ID = [1406977396908888116,1406926755117269073,1417904819993317406,1429712625851170956,1407903342729887794,1429718356839239721]
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='$', intents=intents)
@@ -24,7 +24,24 @@ async def on_ready():
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send("pong")
+    await ctx.reply("pong")
+
+def is_admin(ctx):
+    return any(role.id in ADMIN_ID for role in ctx.author.roles)
+
+@bot.command()
+async def start(ctx):
+    if not is_admin(ctx):
+        await ctx.reply("You can’t use this command!")
+        return
+    await ctx.reply("Starting Minecraft server")
+
+@bot.command()
+async def stop(ctx):
+    if not is_admin(ctx):
+        await ctx.reply("You can’t use this command!")
+        return
+    await ctx.reply("Stopping Minecraft server")
 
 @tasks.loop(seconds=1)
 async def check_server():
